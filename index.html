@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Peakly · Compra antes del pico</title>
+  <meta name="description" content="Peakly detecta con IA qué productos de reventa de Vinted, Wallapop y eBay van a alcanzar su pico de demanda. Proyecto académico.">
+  <meta name="theme-color" content="#0B1530">
+  <!-- Marca que hay JavaScript (activa las animaciones de entrada) -->
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <!-- Fuentes: si no hay internet se usa la fuente del sistema -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/secciones.css">
+  <link rel="stylesheet" href="css/demo.css">
+  <link rel="stylesheet" href="css/presentacion.css">
+</head>
+<body>
+<!-- ===== Iconos SVG propios (se reutilizan con <use>) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="logo" viewBox="0 0 34 34"><path d="M2 30 L13 12 L19 21 L24 14 L32 30 Z" fill="#1E2C57"/><path d="M4 26 L12 17 L18 22 L28 8" fill="none" stroke="#22D98A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="8" r="3.6" fill="#22D98A"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 6.1A9.8 9.8 0 0 1 12 6c5 0 9 6 9 6a17 17 0 0 1-2.6 3.3M6.6 6.6C4.3 8.1 3 12 3 12s4 6 9 6a9 9 0 0 0 4.4-1.1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M7 3h10M7 21h10M8 3c0 4 8 5 8 9s-8 5-8 9M16 3c0 4-8 5-8 9s8 5 8 9"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 16a8 8 0 1 1 16 0M12 16l4-5"/><circle cx="12" cy="16" r="1.5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" fill="currentColor"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M3 7h18v13H3zM8 7V4h8v3M3 12h18"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 10v10h16V10M2 10l2-6h16l2 6zM9 20v-6h6v6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-screen" viewBox="0 0 24 24"><path d="M3 4h18v12H3zM8 20h8M12 16v4"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main" data-i18n="nav.skip">Saltar al contenido</a>
+
+<!-- ===== 1. NAVBAR ===== -->
+<header class="navbar" id="navbar">
+  <nav class="container navbar__inner" aria-label="Principal" data-i18n-attr="aria-label:nav.aria">
+    <a class="logo" href="#inicio" aria-label="Peakly, inicio" data-i18n-attr="aria-label:nav.home">
+      <svg class="logo__mark" aria-hidden="true"><use href="#logo"/></svg><span class="logo__text">Peakly</span>
+    </a>
+    <ul class="navbar__links" id="navLinks">
+      <li><a href="#como-funciona" data-i18n="nav.how">Cómo funciona</a></li>
+      <li><a href="#demo" data-i18n="nav.demo">Demo</a></li>
+      <li><a href="#precios" data-i18n="nav.pricing">Precios</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+    </ul>
+    <div class="navbar__actions">
+      <div class="lang" role="group" aria-label="Idioma" data-i18n-attr="aria-label:nav.lang">
+        <button type="button" class="lang__btn" data-lang="es" aria-pressed="true" data-track="idioma/es">ES</button>
+        <button type="button" class="lang__btn" data-lang="en" aria-pressed="false" data-track="idioma/en">EN</button>
+      </div>
+      <a class="btn btn--primary btn--sm navbar__cta" href="#lista" data-track="cta/navbar-lista" data-i18n="nav.cta">Únete a la lista</a>
+      <button type="button" class="icon-btn navbar__menu" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú" data-i18n-attr="aria-label:nav.menu">
+        <svg aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- ===== 2. HERO ===== -->
+  <section class="hero" id="inicio" data-pres-title="pres.s1">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <p class="pill reveal"><span class="pill__dot"></span><span data-i18n="hero.badge">Vinted · Wallapop · eBay en un solo panel</span></p>
+        <h1 class="hero__title reveal" data-i18n-html="hero.title">Compra antes<br>del <span class="accent">pico.</span></h1>
+        <p class="hero__sub reveal" data-i18n="hero.sub">La IA de Peakly detecta qué productos de reventa van a petar, antes de que el mercado se sature.</p>
+        <div class="hero__ctas reveal">
+          <a class="btn btn--primary btn--lg" href="#lista" data-track="cta/hero-lista" data-i18n="hero.ctaWait">Únete a la lista de espera</a>
+          <a class="btn btn--ghost btn--lg" href="#demo" data-track="cta/hero-demo"><span data-i18n="hero.ctaDemo">Prueba la demo</span><svg class="btn__icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+
+      <figure class="hero-card reveal" id="heroCard">
+        <span class="tag-sample" data-i18n="common.sample">Datos de ejemplo</span>
+        <div class="hero-card__head">
+          <div>
+            <p class="eyebrow-sm" data-i18n="hero.cardEyebrow">Tendencia · Zapatillas</p>
+            <p class="hero-card__name" data-i18n="hero.cardProduct">Zapatillas retro de terraza</p>
+            <p class="hero-card__growth" data-i18n="hero.cardGrowth">+142 % de demanda en 4 semanas</p>
+          </div>
+          <div class="ring ring--md" role="img" id="heroRing" aria-label="Peak Score 87 sobre 100">
+            <svg viewBox="0 0 92 92" aria-hidden="true"><circle class="ring__track" cx="46" cy="46" r="38"/><circle class="ring__value" id="heroRingValue" cx="46" cy="46" r="38"/></svg>
+            <div class="ring__label"><span class="ring__num" id="heroScore">0</span><span class="ring__cap">Peak Score</span></div>
+          </div>
+        </div>
+        <svg class="hero-chart" viewBox="0 0 560 300" role="img" aria-label="Gráfico de demanda: sube hasta un pico previsto dentro de 3 semanas" data-i18n-attr="aria-label:hero.chartAria">
+          <g class="chart-grid"><line x1="0" y1="75" x2="560" y2="75"/><line x1="0" y1="150" x2="560" y2="150"/><line x1="0" y1="225" x2="560" y2="225"/></g>
+          <rect class="late-in peak-zone" x="395" y="20" width="80" height="260" rx="10"/>
+          <path class="late-in chart-area" d="M0,262 C60,258 110,250 160,232 C210,214 240,190 280,160 C320,128 360,90 400,68 C420,58 440,56 460,62 C490,72 520,96 560,118 L560,300 L0,300 Z"/>
+          <path class="draw chart-line" pathLength="1" d="M0,262 C60,258 110,250 160,232 C210,214 240,190 280,160 C320,128 360,90 400,68 C420,58 440,56 460,62 C490,72 520,96 560,118"/>
+          <g class="late-in"><circle class="pulse" cx="280" cy="160" r="7"/><circle class="dot-now" cx="280" cy="160" r="7"/><text class="chart-label" x="280" y="196" text-anchor="middle" data-i18n="hero.today">Hoy: compra</text></g>
+          <g class="late-in"><circle class="dot-peak" cx="440" cy="57" r="8"/><text class="chart-label chart-label--peak" x="440" y="34" text-anchor="middle" data-i18n="hero.peak">Pico previsto</text></g>
+          <g class="chart-axis"><text x="0" y="296" data-i18n="hero.w1">Sem. 1</text><text x="280" y="296" text-anchor="middle" data-i18n="hero.w6">Sem. 6</text><text x="560" y="296" text-anchor="end" data-i18n="hero.w12">Sem. 12</text></g>
+        </svg>
+        <div class="stats">
+          <div class="stat"><span class="stat__label" data-i18n="hero.buy">Compra ideal</span><span class="stat__value" data-i18n="hero.buyValue">≤ 45 €</span></div>
+          <div class="stat"><span class="stat__label" data-i18n="hero.sell">Venta ideal</span><span class="stat__value" data-i18n="hero.sellValue">95 €</span></div>
+          <div class="stat"><span class="stat__label" data-i18n="hero.peakIn">Pico en</span><span class="stat__value stat__value--amber" data-i18n="hero.peakInValue">3 semanas</span></div>
+        </div>
+      </figure>
+    </div>
+    <div class="diff-band">
+      <p class="container reveal" data-i18n-html="hero.diff">Las demás herramientas te enseñan lo que <strong>ya se vende</strong>. Peakly te avisa de lo que <em>se va a vender</em>.</p>
+    </div>
+  </section>
+
+  <!-- ===== 3. EL PROBLEMA ===== -->
+  <section class="section" id="problema" data-pres-title="pres.s2">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="eyebrow" data-i18n="problem.eyebrow">El problema</p>
+        <h2 class="section__title" data-i18n="problem.title">Revender a ciegas sale caro.</h2>
+      </header>
+      <div class="grid-4">
+        <article class="card card--problem reveal"><span class="card__icon card__icon--red"><svg aria-hidden="true"><use href="#i-clock"/></svg></span><h3 data-i18n="problem.c1t">Llegan tarde</h3><p data-i18n="problem.c1d">Descubren la tendencia cuando ya está saturada y los precios han bajado.</p></article>
+        <article class="card card--problem reveal"><span class="card__icon card__icon--red"><svg aria-hidden="true"><use href="#i-eyeoff"/></svg></span><h3 data-i18n="problem.c2t">Compran a ciegas</h3><p data-i18n="problem.c2d">Deciden por intuición, sin datos de qué se vende ni a qué precio.</p></article>
+        <article class="card card--problem reveal"><span class="card__icon card__icon--red"><svg aria-hidden="true"><use href="#i-hourglass"/></svg></span><h3 data-i18n="problem.c3t">Pierden horas</h3><p data-i18n="problem.c3d">Revisan Vinted, Wallapop y eBay a mano, anuncio por anuncio.</p></article>
+        <article class="card card--problem reveal"><span class="card__icon card__icon--red"><svg aria-hidden="true"><use href="#i-package"/></svg></span><h3 data-i18n="problem.c4t">Stock parado</h3><p data-i18n="problem.c4d">Productos que no salen y márgenes cada vez más bajos.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. CÓMO FUNCIONA (scroll storytelling: la sección se fija) ===== -->
+  <section class="how" id="como-funciona" data-pres-title="pres.s3">
+    <div class="how__sticky">
+      <div class="container how__inner">
+        <header class="section__head">
+          <p class="eyebrow" data-i18n="how.eyebrow">Cómo funciona</p>
+          <h2 class="section__title" data-i18n="how.title">Detecta. Predice. Avisa.</h2>
+        </header>
+        <div class="how__layout">
+          <ol class="how__steps" id="howSteps">
+            <li><button type="button" class="how-step is-active" data-step="0" aria-current="step"><span class="how-step__num"><svg aria-hidden="true"><use href="#i-search"/></svg></span><span class="how-step__body"><span class="how-step__title"><span>1 · </span><span data-i18n="how.s1t">Detecta</span></span><span class="how-step__text" data-i18n="how.s1d">Rastrea miles de anuncios y ventas en Vinted, Wallapop y eBay para ver qué productos suben.</span></span></button></li>
+            <li><button type="button" class="how-step" data-step="1"><span class="how-step__num"><svg aria-hidden="true"><use href="#i-gauge"/></svg></span><span class="how-step__body"><span class="how-step__title"><span>2 · </span><span data-i18n="how.s2t">Predice</span></span><span class="how-step__text" data-i18n="how.s2d">Su IA calcula el Peak Score (0-100): cuánto falta para el pico de demanda.</span></span></button></li>
+            <li><button type="button" class="how-step" data-step="2"><span class="how-step__num"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><span class="how-step__body"><span class="how-step__title"><span>3 · </span><span data-i18n="how.s3t">Avisa</span></span><span class="how-step__text" data-i18n="how.s3d">Te manda una alerta al móvil con el precio ideal de compra y de venta.</span></span></button></li>
+          </ol>
+          <div class="how__stage" aria-live="polite">
+            <div class="how-panel is-active" data-panel="0">
+              <p class="eyebrow-sm" data-i18n="how.v1">Rastreando anuncios y ventas</p>
+              <div class="scanline" aria-hidden="true"></div>
+              <ul class="scan-list" id="scanList"></ul>
+            </div>
+            <div class="how-panel" data-panel="1">
+              <p class="eyebrow-sm" data-i18n="how.v2">La IA calcula el Peak Score</p>
+              <div class="ring ring--xl" role="img" aria-label="Peak Score 87 sobre 100" data-i18n-attr="aria-label:how.ringAria">
+                <svg viewBox="0 0 220 220" aria-hidden="true"><circle class="ring__track" cx="110" cy="110" r="92"/><circle class="ring__value" id="howRingValue" cx="110" cy="110" r="92"/></svg>
+                <div class="ring__label"><span class="ring__num">87</span><span class="ring__cap" data-i18n="how.of100">de 100</span></div>
+              </div>
+              <p class="how-panel__note" data-i18n-html="how.v2note">Pico de demanda previsto en <strong>3 semanas</strong></p>
+            </div>
+            <div class="how-panel" data-panel="2">
+              <p class="eyebrow-sm" data-i18n="how.v3">Alerta en tu móvil</p>
+              <div class="notif notif--big">
+                <span class="notif__icon"><svg aria-hidden="true"><use href="#logo"/></svg></span>
+                <span class="notif__body"><strong data-i18n="how.notifTitle">Peakly · ahora</strong><span data-i18n="how.notifText">Cámara digital compacta 2000s a punto de despegar. Compra por debajo de 40 € y vende a 110 €.</span></span>
+              </div>
+              <div class="stats">
+                <div class="stat"><span class="stat__label" data-i18n="hero.buy">Compra ideal</span><span class="stat__value" data-i18n="how.buyValue">≤ 40 €</span></div>
+                <div class="stat"><span class="stat__label" data-i18n="hero.sell">Venta ideal</span><span class="stat__value stat__value--green" data-i18n="how.sellValue">110 €</span></div>
+              </div>
+            </div>
+            <span class="tag-sample tag-sample--corner" data-i18n="common.sample">Datos de ejemplo</span>
+          </div>
+        </div>
+        <div class="how__progress" aria-hidden="true"><span id="howProgress"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. DEMO INTERACTIVA (la lógica está en js/demo.js) ===== -->
+  <section class="section demo" id="demo" data-pres-title="pres.s4">
+    <div class="container">
+      <header class="demo__head">
+        <div class="section__head">
+          <p class="eyebrow" data-i18n="demo.eyebrow">Demo interactiva</p>
+          <h2 class="section__title" data-i18n="demo.title">Pruébalo tú mismo.</h2>
+        </div>
+        <div class="demo__head-actions">
+          <span class="tag-sample tag-sample--inline" data-i18n="common.sample">Datos de ejemplo</span>
+          <button type="button" class="btn btn--outline" id="tourBtn" data-track="demo/tour"><svg class="btn__icon" aria-hidden="true"><use href="#i-play"/></svg><span id="tourBtnText" data-i18n="demo.tour">Ver demo guiada</span></button>
+        </div>
+      </header>
+
+      <div class="filters panel">
+        <div class="filters__row">
+          <label class="field field--grow" for="demoSearch"><span data-i18n="demo.search">Buscar producto</span>
+            <input type="search" id="demoSearch" autocomplete="off" placeholder="Ej.: cámara, chaqueta…" data-i18n-attr="placeholder:demo.searchPh">
+          </label>
+          <div class="chips" id="platFilters" role="group" aria-label="Plataforma" data-i18n-attr="aria-label:demo.platform"></div>
+        </div>
+        <div class="chips" id="catFilters" role="group" aria-label="Categoría" data-i18n-attr="aria-label:demo.category"></div>
+      </div>
+
+      <div class="demo__layout">
+        <div class="demo__list">
+          <p class="eyebrow-sm" id="demoCount"></p>
+          <ul class="product-list" id="demoList"></ul>
+          <p class="empty" id="demoEmpty" hidden data-i18n="demo.empty">No hay productos con esos filtros.</p>
+        </div>
+
+        <article class="detail panel" id="detail" aria-labelledby="dName">
+          <div class="detail__head">
+            <div class="detail__title">
+              <p class="detail__meta" id="dMeta"></p>
+              <h3 class="detail__name" id="dName"></h3>
+              <p class="status" id="dStatus"><span class="status__dot"></span><span id="dStatusText"></span></p>
+            </div>
+            <div class="ring ring--lg" role="img" id="dRing">
+              <svg viewBox="0 0 112 112" aria-hidden="true"><circle class="ring__track" cx="56" cy="56" r="46"/><circle class="ring__value" id="dRingValue" cx="56" cy="56" r="46"/></svg>
+              <div class="ring__label"><span class="ring__num" id="dScore">0</span><span class="ring__cap">Peak Score</span></div>
+            </div>
+          </div>
+          <svg class="detail-chart" id="dChart" viewBox="0 0 600 250" role="img">
+            <g class="chart-grid"><line x1="0" y1="50" x2="600" y2="50"/><line x1="0" y1="115" x2="600" y2="115"/><line x1="0" y1="180" x2="600" y2="180"/></g>
+            <rect class="peak-zone" id="dZone" x="0" y="14" width="76" height="198" rx="10"/>
+            <text class="chart-label chart-label--peak" id="dZoneLabel" x="0" y="8" text-anchor="middle" data-i18n="demo.peakZone">Pico previsto</text>
+            <path class="chart-future" id="dFull" d=""/>
+            <path class="chart-line chart-line--past" id="dPast" d=""/>
+            <line class="now-line" id="dNowLine" x1="0" y1="14" x2="0" y2="212"/>
+            <circle class="now-dot" id="dNowDot" cx="0" cy="0" r="8"/>
+            <g class="chart-axis"><text x="0" y="242" id="dAx1">Sem. 1</text><text x="300" y="242" text-anchor="middle" id="dAx7">Sem. 7</text><text x="600" y="242" text-anchor="end" id="dAx13">Sem. 13</text></g>
+          </svg>
+
+          <div class="sim">
+            <label class="sim__label" for="weekRange"><span data-i18n="demo.sim">Simulador de tiempo</span><span class="sim__week" id="weekLabel"></span></label>
+            <input type="range" id="weekRange" min="0" max="12" step="1" value="5">
+            <p class="sim__tip" id="weekTip"></p>
+          </div>
+
+          <div class="stats stats--4">
+            <div class="stat"><span class="stat__label" data-i18n="demo.buyRec">Compra recomendada</span><span class="stat__value" id="dBuy"></span></div>
+            <div class="stat"><span class="stat__label" data-i18n="demo.sellRec">Venta recomendada</span><span class="stat__value" id="dSell"></span></div>
+            <div class="stat"><span class="stat__label" data-i18n="demo.margin">Margen estimado</span><span class="stat__value stat__value--green" id="dMargin"></span></div>
+            <div class="stat"><span class="stat__label" data-i18n="demo.market">Precio de mercado</span><span class="stat__value" id="dMarket"></span></div>
+          </div>
+          <button type="button" class="btn btn--primary btn--lg alert-btn" id="alertBtn" aria-pressed="false" data-track="demo/alerta"><svg class="btn__icon" aria-hidden="true"><use href="#i-bell"/></svg><span id="alertBtnText" data-i18n="demo.alertOff">Activar alerta</span></button>
+        </article>
+
+        <!-- Mockup de móvil que recibe la alerta -->
+        <div class="phone" aria-label="Móvil con la app de Peakly" role="group" data-i18n-attr="aria-label:demo.phoneAria">
+          <div class="phone__screen">
+            <span class="phone__island" aria-hidden="true"></span>
+            <div class="notif phone__notif" id="phoneNotif" role="status" hidden>
+              <span class="notif__icon"><svg aria-hidden="true"><use href="#logo"/></svg></span>
+              <span class="notif__body"><strong data-i18n="how.notifTitle">Peakly · ahora</strong><span id="phoneNotifText"></span></span>
+            </div>
+            <div class="phone__bottom">
+              <p class="phone__title" data-i18n="demo.phoneTitle">Mis alertas</p>
+              <p class="phone__card" id="phoneHint"></p>
+              <p class="phone__card phone__card--row"><span>Peak Score</span><strong id="phoneScore"></strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculadora de beneficio -->
+      <div class="calc panel">
+        <div class="calc__form">
+          <h3 class="calc__title" data-i18n="calc.title">Calculadora de beneficio</h3>
+          <p class="calc__sub" id="calcSub"></p>
+          <label class="field" for="calcBuy"><span data-i18n="calc.buy">Precio de compra por unidad (€)</span><input type="number" id="calcBuy" min="1" max="9999" step="1" inputmode="decimal"></label>
+          <label class="field" for="calcUnits"><span data-i18n="calc.units">Unidades</span><input type="number" id="calcUnits" min="1" max="999" step="1" value="10" inputmode="numeric"></label>
+        </div>
+        <div class="calc__result" aria-live="polite">
+          <div class="compare"><div class="compare__row"><span data-i18n="calc.early">Comprando antes del pico</span><strong class="compare__value" id="calcEarly"></strong></div><div class="bar" aria-hidden="true"><span class="bar__fill" id="calcEarlyBar"></span></div><p class="compare__detail" id="calcEarlyDetail"></p></div>
+          <div class="compare"><div class="compare__row"><span data-i18n="calc.late">Comprando después del pico</span><strong class="compare__value" id="calcLate"></strong></div><div class="bar" aria-hidden="true"><span class="bar__fill" id="calcLateBar"></span></div><p class="compare__detail" id="calcLateDetail"></p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. ¿PARA QUIÉN ES? ===== -->
+  <section class="section" id="para-quien" data-pres-title="pres.s5">
+    <div class="container">
+      <header class="section__head reveal">
+        <p class="eyebrow" data-i18n="who.eyebrow">¿Para quién es?</p>
+        <h2 class="section__title" data-i18n="who.title">Si revendes, es para ti.</h2>
+      </header>
+      <div class="grid-4">
+        <article class="card card--featured reveal"><span class="badge" data-i18n="who.main">Público principal</span><span class="card__icon"><svg aria-hidden="true"><use href="#i-user"/></svg></span><h3 data-i18n="who.s1t">Revendedores ocasionales</h3><p data-i18n="who.s1d">De 18 a 30 años. Estudiantes y jóvenes que revenden ropa y zapatillas para ganar un extra.</p></article>
+        <article class="card reveal"><span class="card__icon"><svg aria-hidden="true"><use href="#i-briefcase"/></svg></span><h3 data-i18n="who.s2t">Revendedores profesionales</h3><p data-i18n="who.s2d">Viven de la reventa y necesitan datos para escalar sin arriesgar stock.</p></article>
+        <article class="card reveal"><span class="card__icon"><svg aria-hidden="true"><use href="#i-store"/></svg></span><h3 data-i18n="who.s3t">Tiendas vintage y de segunda mano</h3><p data-i18n="who.s3d">Deciden qué stock comprar y a qué precio, con datos y no por intuición.</p></article>
+        <article class="card reveal"><span class="card__icon"><svg aria-hidden="true"><use href="#i-star"/></svg></span><h3 data-i18n="who.s4t">Coleccionistas</h3><p data-i18n="who.s4d">Sneakers, cartas y tecnología: saben cuándo comprar y cuándo vender.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 7. PRECIOS ===== -->
+  <section class="section" id="precios" data-pres-title="pres.s6">
+    <div class="container">
+      <header class="section__head section__head--center reveal">
+        <p class="eyebrow" data-i18n="pricing.eyebrow">Precios</p>
+        <h2 class="section__title" data-i18n="pricing.title">Empieza gratis. Sube cuando ganes.</h2>
+      </header>
+      <div class="plans">
+        <article class="plan reveal">
+          <h3 class="plan__name" data-i18n="pricing.freeName">Gratis</h3><p class="plan__tag" data-i18n="pricing.freeTag">Para probar sin riesgo.</p>
+          <p class="plan__price"><span data-i18n="pricing.freePrice">0 €</span></p>
+          <ul class="plan__list"><li data-i18n="pricing.free1">3 alertas por semana</li><li data-i18n="pricing.free2">Top 10 de tendencias</li><li data-i18n="pricing.free3">Vinted, Wallapop y eBay</li></ul>
+          <a class="btn btn--ghost btn--block" href="#lista" data-track="plan/gratis" data-i18n="pricing.freeCta">Empieza gratis</a>
+        </article>
+        <article class="plan plan--featured reveal">
+          <span class="badge badge--center" data-i18n="pricing.popular">El más elegido</span>
+          <h3 class="plan__name" data-i18n="pricing.proName">Pro</h3><p class="plan__tag" data-i18n="pricing.proTag">Para revender en serio.</p>
+          <p class="plan__price"><span data-i18n="pricing.proPrice">9,99 €</span><small data-i18n="pricing.month">/mes</small></p>
+          <ul class="plan__list"><li data-i18n="pricing.pro1">Alertas ilimitadas</li><li data-i18n="pricing.pro2">Peak Score de cada producto</li><li data-i18n="pricing.pro3">Precio recomendado de compra y venta</li><li data-i18n="pricing.pro4">Simulador y calculadora de beneficio</li></ul>
+          <a class="btn btn--primary btn--block" href="#lista" data-track="plan/pro" data-i18n="pricing.proCta">Únete a la lista de espera</a>
+        </article>
+        <article class="plan reveal">
+          <h3 class="plan__name" data-i18n="pricing.bizName">Business</h3><p class="plan__tag" data-i18n="pricing.bizTag">Para tiendas y equipos.</p>
+          <p class="plan__price"><span data-i18n="pricing.bizPrice">29,99 €</span><small data-i18n="pricing.month">/mes</small></p>
+          <ul class="plan__list"><li data-i18n="pricing.biz1">Todo lo de Pro</li><li data-i18n="pricing.biz2">Varios usuarios</li><li data-i18n="pricing.biz3">Informes de tendencias</li><li data-i18n="pricing.biz4">Exportación de datos</li></ul>
+          <a class="btn btn--ghost btn--block" href="#lista" data-track="plan/business" data-i18n="pricing.bizCta">Contactar</a>
+        </article>
+      </div>
+      <p class="note reveal" data-i18n="pricing.note">Sin permanencia: cancela cuando quieras. Ingresos extra: comisiones de afiliados e informes de tendencias para marcas y tiendas.</p>
+    </div>
+  </section>
+
+  <!-- ===== 8. PREGUNTAS FRECUENTES (acordeón) ===== -->
+  <section class="section" id="faq" data-pres-title="pres.s7">
+    <div class="container container--narrow">
+      <header class="section__head section__head--center reveal">
+        <p class="eyebrow" data-i18n="faq.eyebrow">Preguntas frecuentes</p>
+        <h2 class="section__title" data-i18n="faq.title">Lo que todos preguntan.</h2>
+      </header>
+      <div class="faq" id="faqList">
+        <div class="faq__item"><h3><button type="button" class="faq__q" aria-expanded="true" aria-controls="faq-a1" id="faq-q1"><span data-i18n="faq.q1">¿De dónde salen los datos?</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></button></h3><div class="faq__a" id="faq-a1" role="region" aria-labelledby="faq-q1"><p data-i18n="faq.a1">Peakly analiza anuncios y ventas públicas de Vinted, Wallapop y eBay y las agrupa por producto. En esta demo todos los datos son de ejemplo.</p></div></div>
+        <div class="faq__item"><h3><button type="button" class="faq__q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2"><span data-i18n="faq.q2">¿Es legal?</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></button></h3><div class="faq__a" id="faq-a2" role="region" aria-labelledby="faq-q2" hidden><p data-i18n="faq.a2">Trabajamos con información pública y agregada, nunca con datos personales de vendedores, y respetando las condiciones de cada plataforma.</p></div></div>
+        <div class="faq__item"><h3><button type="button" class="faq__q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3"><span data-i18n="faq.q3">¿Qué es el Peak Score?</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></button></h3><div class="faq__a" id="faq-a3" role="region" aria-labelledby="faq-q3" hidden><p data-i18n="faq.a3">Una puntuación de 0 a 100 que calcula nuestra IA para indicar cuánto falta para el pico de demanda de un producto.</p></div></div>
+        <div class="faq__item"><h3><button type="button" class="faq__q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4"><span data-i18n="faq.q4">¿Funciona con cualquier producto?</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></button></h3><div class="faq__a" id="faq-a4" role="region" aria-labelledby="faq-q4" hidden><p data-i18n="faq.a4">Funciona mejor donde hay mucho movimiento: zapatillas, ropa vintage, tecnología retro y coleccionables. Iremos sumando categorías.</p></div></div>
+        <div class="faq__item"><h3><button type="button" class="faq__q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5"><span data-i18n="faq.q5">¿Necesito saber de datos?</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></button></h3><div class="faq__a" id="faq-a5" role="region" aria-labelledby="faq-q5" hidden><p data-i18n="faq.a5">No. Peakly te lo da masticado: qué comprar, a qué precio y cuándo vender.</p></div></div>
+        <div class="faq__item"><h3><button type="button" class="faq__q" aria-expanded="false" aria-controls="faq-a6" id="faq-q6"><span data-i18n="faq.q6">¿Puedo cancelar cuando quiera?</span><svg aria-hidden="true"><use href="#i-chevron"/></svg></button></h3><div class="faq__a" id="faq-a6" role="region" aria-labelledby="faq-q6" hidden><p data-i18n="faq.a6">Sí. Sin permanencia: cancelas desde la app cuando quieras y vuelves al plan gratis.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 9. CTA FINAL: lista de espera (solo front-end, no envía nada) ===== -->
+  <section class="section cta" id="lista" data-pres-title="pres.s8">
+    <div class="container">
+      <div class="cta__box reveal">
+        <svg class="cta__deco" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0,280 C200,270 380,240 560,170 C700,115 780,40 880,36 C980,32 1060,110 1200,150"/></svg>
+        <h2 class="cta__title" data-i18n="cta.title">La próxima tendencia ya está subiendo.</h2>
+        <p class="cta__sub" data-i18n="cta.sub">Únete a la lista de espera y sé de los primeros en probar Peakly.</p>
+        <!-- Formulario: el envío se configura en js/config.js (por defecto, modo demo) -->
+        <form class="cta__form" id="waitForm" novalidate>
+          <div class="cta__row">
+            <label class="sr-only" for="waitEmail" data-i18n="cta.label">Tu email</label>
+            <input type="email" id="waitEmail" name="email" autocomplete="email" required placeholder="tu@email.com" data-i18n-attr="placeholder:cta.placeholder" aria-describedby="waitMsg">
+            <button type="submit" class="btn btn--primary btn--lg" id="waitSubmit"><span id="waitSubmitText" data-i18n="cta.button">Unirme</span></button>
+          </div>
+          <label class="consent" for="waitConsent">
+            <input type="checkbox" id="waitConsent" name="consentimiento" required aria-describedby="waitMsg">
+            <span data-i18n="cta.consent">Acepto que Peakly guarde mi email para avisarme del lanzamiento. Me puedo dar de baja cuando quiera.</span>
+          </label>
+          <!-- Campo trampa anti-spam: las personas no lo ven; si se rellena, es un robot -->
+          <div class="hp" aria-hidden="true">
+            <label for="waitHp">No rellenes este campo</label>
+            <input type="text" id="waitHp" name="_gotcha" tabindex="-1" autocomplete="off">
+          </div>
+          <p class="cta__msg" id="waitMsg" aria-live="polite"></p>
+          <p class="cta__privacy" data-i18n="cta.privacy">Proyecto académico: no compartimos tu email con nadie y lo borraremos al terminar el curso.</p>
+        </form>
+        <div class="cta__success" id="waitSuccess" role="status" hidden>
+          <span class="success-check"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+          <p class="cta__success-title" data-i18n="cta.okTitle">¡Estás dentro!</p>
+          <p class="cta__success-text" id="waitOkText"></p>
+          <p class="cta__demo-note" id="waitDemoNote" data-i18n="cta.okDemo" hidden>Modo demo: este email no se ha guardado en ningún sitio.</p>
+          <button type="button" class="btn btn--ghost" id="waitAgain" data-i18n="cta.again">Apuntar otro email</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== 10. FOOTER ===== -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <a class="logo" href="#inicio" aria-label="Peakly, inicio" data-i18n-attr="aria-label:nav.home"><svg class="logo__mark" aria-hidden="true"><use href="#logo"/></svg><span class="logo__text">Peakly</span></a>
+      <p data-i18n="footer.slogan">Compra antes del pico.</p>
+    </div>
+    <div class="footer__team">
+      <p class="footer__label" data-i18n="footer.team">Equipo</p>
+      <!-- ✏️ CAMBIA AQUÍ LOS NOMBRES DEL EQUIPO -->
+      <p class="footer__names">Izan · Samu</p>
+      <p class="footer__course" data-i18n="footer.course">Grado Superior de Marketing y Publicidad</p>
+    </div>
+  </div>
+  <p class="footer__legal container" data-i18n="footer.legal">Proyecto académico. Peakly no está afiliada a Vinted, Wallapop ni eBay.</p>
+</footer>
+
+<!-- ===== MODO PRESENTACIÓN (tecla P) ===== -->
+<button type="button" class="pres-toggle" id="presToggle" aria-keyshortcuts="P"><svg aria-hidden="true"><use href="#i-screen"/></svg><span data-i18n="pres.open">Presentar</span><kbd>P</kbd></button>
+<div class="pres-hud" id="presHud" hidden>
+  <button type="button" class="icon-btn" id="presPrev" aria-label="Sección anterior" data-i18n-attr="aria-label:pres.prev"><svg aria-hidden="true"><use href="#i-left"/></svg></button>
+  <div class="pres-hud__info">
+    <p class="pres-hud__count" aria-live="polite"><strong id="presCount">1/8</strong> <span id="presTitle"></span></p>
+    <div class="pres-hud__bar" aria-hidden="true"><span id="presBar"></span></div>
+  </div>
+  <button type="button" class="icon-btn" id="presNext" aria-label="Sección siguiente" data-i18n-attr="aria-label:pres.next"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+  <button type="button" class="icon-btn" id="presExit" aria-label="Salir del modo presentación" data-i18n-attr="aria-label:pres.exit"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+</div>
+<p class="pres-hint" id="presHint" hidden></p>
+<!-- Subtítulos de la demo guiada (fuera de las secciones para que «fixed» funcione siempre) -->
+<p class="tour-msg" id="tourMsg" aria-live="polite"></p>
+
+<script src="js/data.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/medicion.js"></script>
+<script src="js/lista-espera.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/presentacion.js"></script>
+</body>
+</html>
