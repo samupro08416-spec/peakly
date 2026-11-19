@@ -2,7 +2,9 @@
 
 > **Compra antes del pico.** Landing de Peakly, la herramienta que detecta con IA qué productos de reventa de Vinted, Wallapop y eBay van a alcanzar su pico de demanda.
 >
-> Proyecto académico · Grado Superior de Marketing y Publicidad. Peakly no está afiliada a Vinted, Wallapop ni eBay. Todos los datos son de ejemplo.
+> Proyecto académico · Grado Superior de Marketing y Publicidad. Peakly no está afiliada a Vinted, Wallapop ni eBay.
+>
+> **Datos:** las cifras de mercado y las tendencias son **reales** y llevan su fuente (etiqueta verde «Dato real»). El Peak Score, los porcentajes, los precios y las curvas de la demo son una **simulación** (etiqueta gris «Simulación»). Todas las fuentes están en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 
 ---
 
@@ -15,18 +17,24 @@ peakly/
 │  ├─ base.css           Colores, tipografía, botones, navbar, piezas comunes
 │  ├─ secciones.css      Hero, problema, cómo funciona, precios, FAQ, CTA, footer
 │  ├─ demo.css           La demo interactiva
-│  └─ presentacion.css   El modo presentación
+│  ├─ presentacion.css   El modo presentación
+│  └─ visual.css         Capa visual v2: fondo animado, cinta, cifras, caso real
 ├─ js/
-│  ├─ data.js            ✏️ PRODUCTOS DE EJEMPLO (edítalos aquí)
-│  ├─ i18n.js            ✏️ TODOS LOS TEXTOS en español e inglés (edítalos aquí)
-│  ├─ config.js          ✏️ LISTA DE ESPERA REAL Y ANALÍTICA (apartado 6)
+│  ├─ data.js            ✏️ DATOS: cifras reales (con fuente) y productos de la demo
+│  ├─ i18n.js            ✏️ TEXTOS en español e inglés
+│  ├─ i18n-v2.js         ✏️ Textos nuevos de la v2 (se suman a i18n.js)
+│  ├─ config.js          ✏️ LISTA DE ESPERA, ANALÍTICA Y FUENTE DE DATOS
+│  ├─ api.js             Capa de datos: hoy data.js, mañana vuestro servidor
 │  ├─ app.js             Idioma, navbar, animaciones, «Cómo funciona», FAQ
+│  ├─ visual.js          Cinta de tendencias, contadores, brillos y efecto 3D
 │  ├─ medicion.js        Canal de origen (UTM), analítica y eventos
 │  ├─ lista-espera.js    Formulario: validación, consentimiento y envío
 │  ├─ demo.js            Demo: filtros, ficha, simulador, alerta, calculadora y tour
 │  └─ presentacion.js    Modo presentación (tecla P)
 ├─ integraciones/
 │  └─ google-apps-script.gs   Código para guardar los registros en Google Sheets
+├─ docs/
+│  └─ ARQUITECTURA.md    Cómo hacer Peakly funcional, API y fuentes reales
 ├─ assets/favicon.svg    Logo/icono
 ├─ README.md             Este archivo
 └─ GUION.md              Guion de 2 minutos para presentar
@@ -76,7 +84,7 @@ Funciona sin internet. Lo único que necesita conexión son las fuentes (Space G
 
 Consejos para el día de la presentación:
 - Pon el navegador a pantalla completa con **F11** antes de pulsar **P**.
-- Abajo verás la barra de progreso (por ejemplo **4/8 · Demo interactiva**).
+- Abajo verás la barra de progreso (por ejemplo **5/10 · Demo interactiva**). Hay 10 paradas: Hero → El problema → La oportunidad → Cómo funciona → Demo → Caso real → Para quién → Precios → FAQ → Lista de espera.
 - La demo guiada dura unos 15 segundos y sola: elige el producto, avanza el tiempo, enseña qué pasa si llegas tarde y activa la alerta en el móvil. Si tocas la demo mientras se reproduce, se para.
 - El idioma se cambia con **ES / EN** en la barra de arriba y se recuerda para la próxima vez.
 
@@ -86,7 +94,9 @@ Consejos para el día de la presentación:
 
 - **Nombres del equipo:** en `index.html`, busca `CAMBIA AQUÍ LOS NOMBRES DEL EQUIPO` (ahora pone «Izan · Samu»).
 - **Textos:** en `js/i18n.js`. Cada texto está en español (`es`) y en inglés (`en`); cambia los dos.
-- **Productos de la demo:** en `js/data.js`. Copia una línea de producto, cambia el `id` (sin espacios) y sus datos. La lista, los filtros y los gráficos se actualizan solos.
+- **Productos de la demo:** en `js/data.js`. Copia un producto, cambia el `id` (sin espacios) y sus datos. Pon su `motivo` y su `fuente` real. La lista, los filtros y los gráficos se actualizan solos. Ilustraciones disponibles: `sneaker`, `shirt`, `camera`, `cards` y `figure`.
+- **Cifras del mercado y cinta de tendencias:** en `js/data.js` (`mercado` y `ticker`). Pon siempre la fuente y la fecha.
+- **Hacerla funcional:** lee [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md). La web ya está preparada para pedir los datos a un servidor (`config.js` → `datos`).
 - **Colores:** en `css/base.css`, apartado *1. Variables*. Cambiando `--green` cambia el acento de toda la web.
 
 ---
