@@ -3,7 +3,8 @@
    Dashboard simulado: filtros, lista con sparklines, ficha
    con gráfico y Peak Score, simulador de tiempo, alerta en
    el móvil, calculadora y demo guiada automática.
-   Todo funciona con los datos de ejemplo de data.js.
+   Los productos llegan a través de api.js (hoy, data.js;
+   mañana, vuestro servidor) sin cambiar nada de este archivo.
    ========================================================= */
 (function () {
   "use strict";
@@ -18,7 +19,9 @@
   const SPARK = { W: 76, H: 24, TOP: 3 };            // minigráfico de la lista
   const COLORS = { buy: "#22D98A", sell: "#F5B841", late: "#FF8A8A" };
 
-  const first = DATA.productos[0];
+  // Productos: arrancan con los datos locales y, si hay servidor configurado, se sustituyen (api.js)
+  let products = DATA.productos;
+  const first = products[0];
   const state = {
     query: "", cat: "all", plat: "all",
     sel: first.id, week: TODAY, alertFor: null,
@@ -32,9 +35,22 @@
   const lang = () => P.getLang();
   const nameOf = (p) => p.nombre[lang()] || p.nombre.es;
   const catOf = (id) => { const c = DATA.categorias.find((x) => x.id === id); return c ? (c[lang()] || c.es) : id; };
-  const pct = (n) => "+" + n + (lang() === "es" ? " %" : "%");
+  const pct = (n) => (n >= 0 ? "+" : "−") + Math.abs(n) + (lang() === "es" ? " %" : "%");
   const signed = (n) => (n >= 0 ? "+" : "−") + money(Math.abs(n));
-  const selected = () => DATA.productos.find((p) => p.id === state.sel) || first;
+  const selected = () => products.find((p) => p.id === state.sel) || products[0];
+
+  // Ilustración SVG propia del producto (definidas como <symbol id="ill-..."> en index.html)
+  function illustration(p, extraClass) {
+    const wrap = document.createElement("span");
+    wrap.className = "ill ill--" + p.categoria + (extraClass ? " " + extraClass : "");
+    wrap.setAttribute("aria-hidden", "true");
+    const svg = document.createElementNS(SVG_NS, "svg");
+    const use = document.createElementNS(SVG_NS, "use");
+    use.setAttribute("href", "#ill-" + (p.ilustracion || "cards"));
+    svg.append(use);
+    wrap.append(svg);
+    return wrap;
+  }
 
   // Curva de demanda simulada (campana centrada en la semana del pico)
   function demand(p, w) { return 0.1 + 0.9 * Math.exp(-Math.pow(w - p.semanaPico, 2) / (2 * 2.3 * 2.3)); }
@@ -46,11 +62,12 @@
     }
     return "M" + pts.join(" L");
   }
-  // Precio de mercado según la semana (sube hasta el pico y luego baja)
+  // Precio de mercado según la semana: con la demanda mínima vale el precio de compra
+  // y en el pico, el de venta (sube hasta el pico y luego baja)
   function marketPrice(p, w) {
-    const d0 = demand(p, 0);
-    const norm = (demand(p, w) - d0) / (demand(p, p.semanaPico) - d0);
-    return Math.round(p.compra + (p.venta - p.compra) * norm);
+    const MIN_DEMAND = 0.1;
+    const norm = (demand(p, w) - MIN_DEMAND) / (1 - MIN_DEMAND);
+    return Math.max(1, Math.round(p.compra + (p.venta - p.compra) * norm));
   }
   function statusFor(p, w) {
     const d = w - p.semanaPico;
@@ -86,7 +103,7 @@
   }
   function filtered() {
     const q = state.query.trim().toLowerCase();
-    return DATA.productos.filter((p) =>
+    return products.filter((p) =>
       (state.cat === "all" || p.categoria === state.cat) &&
       (state.plat === "all" || p.plataforma === state.plat) &&
       (!q || nameOf(p).toLowerCase().includes(q) || p.nombre.es.toLowerCase().includes(q)));
@@ -103,7 +120,7 @@
       const li = document.createElement("li");
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "product";
+      b.className = "product spot";
       b.dataset.id = p.id;
       b.style.animationDelay = (i * 0.04) + "s";
       b.setAttribute("aria-pressed", String(p.id === state.sel));
@@ -114,7 +131,7 @@
       info.append(nm, meta);
 
       const svg = document.createElementNS(SVG_NS, "svg");
-      svg.setAttribute("class", "product__spark");
+      svg.setAttribute("class", "product__spark" + (p.crecimiento < 0 ? " is-down" : ""));
       svg.setAttribute("viewBox", "0 0 " + SPARK.W + " 30");
       svg.setAttribute("aria-hidden", "true");
       const path = document.createElementNS(SVG_NS, "path");
@@ -124,17 +141,19 @@
       const nums = document.createElement("span"); nums.className = "product__nums";
       const sc = document.createElement("span"); sc.className = "product__score"; sc.textContent = p.peakScore;
       sc.setAttribute("aria-label", t("demo.scoreAria", { n: p.peakScore }));
-      const gr = document.createElement("span"); gr.className = "product__growth"; gr.textContent = pct(p.crecimiento);
+      const gr = document.createElement("span");
+      gr.className = "product__growth" + (p.crecimiento < 0 ? " is-down" : "");
+      gr.textContent = pct(p.crecimiento);
       nums.append(sc, gr);
 
-      b.append(info, svg, nums);
+      b.append(illustration(p), info, svg, nums);
       b.addEventListener("click", () => selectProduct(p.id, true));
       li.append(b);
       list.append(li);
     });
   }
   function selectProduct(id, keepFocus) {
-    const p = DATA.productos.find((x) => x.id === id);
+    const p = products.find((x) => x.id === id);
     if (!p) return;
     state.sel = id;
     state.week = TODAY;
@@ -160,6 +179,20 @@
     detail.style.setProperty("--status", COLORS[st.key]);
     $("dMeta").textContent = p.plataforma + " · " + catOf(p.categoria);
     $("dName").textContent = nameOf(p);
+    $("dIll").replaceChildren(illustration(p, "ill--lg"));
+    // «Por qué está en el radar»: tendencia REAL con su fuente
+    $("dWhyText").textContent = p.motivo ? (p.motivo[lang()] || p.motivo.es) : "";
+    const src = $("dWhySource");
+    if (p.fuente && p.fuente.url) {
+      const fecha = p.fuente.fecha ? (p.fuente.fecha[lang()] || p.fuente.fecha.es) : "";
+      src.textContent = p.fuente.nombre + (fecha ? " · " + fecha : "");
+      src.href = p.fuente.url;
+      $("dWhy").hidden = false;
+    } else {
+      $("dWhy").hidden = !p.motivo;
+      src.textContent = "";
+      src.removeAttribute("href");
+    }
     $("dStatusText").textContent = st.label;
     $("dScore").textContent = p.peakScore;
     $("dRing").setAttribute("aria-label", t("demo.scoreAria", { n: p.peakScore }));
@@ -278,7 +311,7 @@
     state.touring = true;
     setTourButton();
     document.dispatchEvent(new CustomEvent("peakly:tour", { detail: { touring: true } }));
-    const best = DATA.productos.reduce((a, b) => (b.peakScore > a.peakScore ? b : a));
+    const best = products.reduce((a, b) => (b.peakScore > a.peakScore ? b : a));
     const pk = best.semanaPico;
     const at = (ms, fn) => timers.push(setTimeout(fn, ms));
     const setWeek = (w) => { state.week = Math.max(0, Math.min(MAX_W, w)); renderDetail(false); };
@@ -339,6 +372,17 @@
   renderFilters();
   renderList();
   renderDetail(false);
+
+  // Si hay un servidor configurado (config.js → datos), cambia los productos por los suyos
+  if (window.PeaklyAPI) {
+    window.PeaklyAPI.getTendencias().then((list) => {
+      if (list === products) return; // siguen siendo los datos locales
+      products = list;
+      if (!products.some((p) => p.id === state.sel)) { state.sel = products[0].id; state.buy = products[0].compra; $("calcBuy").value = state.buy; }
+      renderList();
+      renderDetail(false);
+    });
+  }
 
   // API para el modo presentación
   window.PeaklyDemo = { startTour: startTour, stopTour: stopTour, isTouring: () => state.touring };

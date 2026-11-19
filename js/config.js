@@ -24,6 +24,14 @@ window.PEAKLY_CONFIG = {
     goatcounter: ""
   },
 
+  datos: {
+    // "local"  → usa los datos de js/data.js (lo actual)
+    // "remota" → los pide a vuestro servidor cuando Peakly sea funcional
+    //            (formato en docs/ARQUITECTURA.md). Si falla, vuelve a "local".
+    fuente: "local",
+    url: "" // ej.: "https://api.peakly.app"
+  },
+
   // true = muestra en la consola del navegador cada evento medido (útil para probar)
   debug: false
 };
