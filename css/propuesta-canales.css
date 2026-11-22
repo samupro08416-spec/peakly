@@ -1,0 +1,122 @@
+/* =========================================================
+   PEAKLY · propuesta-canales.css
+   Propuesta de valor + diferencial (comparador) y
+   Canales y relación con el cliente (post y referidos).
+   ========================================================= */
+
+/* ---------- Propuesta de valor ---------- */
+.value-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-bottom: 28px; }
+@media (max-width: 1180px) { .value-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .value-grid { grid-template-columns: 1fr; } }
+.value-card { padding: 22px; gap: 10px; }
+.value-card h3 { font-size: 1.125rem; }
+.value-card p { font-size: .9375rem; }
+.value-grid .reveal:nth-child(2) { transition-delay: .06s; }
+.value-grid .reveal:nth-child(3) { transition-delay: .12s; }
+.value-grid .reveal:nth-child(4) { transition-delay: .18s; }
+.value-grid .reveal:nth-child(5) { transition-delay: .24s; }
+
+/* Diferencial: comparador */
+.diff { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 32px; align-items: center; padding: 32px; border-radius: var(--radius-lg); }
+@media (max-width: 900px) { .diff { grid-template-columns: 1fr; padding: 22px; } }
+.diff__title { margin: 8px 0 18px; font-family: var(--font-display); font-size: clamp(1.5rem, 2.6vw, 2.125rem); line-height: 1.15; letter-spacing: -.02em; }
+.segmented { display: inline-flex; padding: 4px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); }
+.segmented__btn {
+  min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: transparent;
+  color: var(--text-2); font-weight: 700; transition: background-color .25s ease, color .25s ease;
+}
+.segmented__btn[aria-pressed="true"] { background: var(--green); color: var(--bg); }
+.segmented__btn[data-mode="otras"][aria-pressed="true"] { background: var(--red); }
+.diff__caption { margin-top: 16px; min-height: 3em; font-size: 1.0625rem; color: var(--text-2); }
+.diff-chart { width: 100%; height: auto; overflow: visible; }
+.diff-past { fill: none; stroke: var(--text-2); stroke-width: 4; stroke-linecap: round; transition: stroke .4s ease; }
+[data-mode="peakly"] .diff-past { stroke: var(--green); }
+[data-mode="otras"] .dot-now { fill: var(--text-2); }
+.diff-today { stroke: var(--line); stroke-width: 2; stroke-dasharray: 4 6; }
+.diff-tag { fill: var(--text-3); font: 600 13px var(--font-body); }
+.diff-tag--green { fill: var(--green); }
+.diff-fog { fill: rgba(201, 210, 234, .05); stroke: var(--line); stroke-dasharray: 6 6; }
+.diff-question { fill: var(--text-3); font: 700 64px var(--font-display); }
+.diff-buy { fill: var(--green); fill-opacity: .08; }
+.diff-forecast { fill: none; stroke: var(--amber); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 9 9; }
+.only-others, .only-peakly { transition: opacity .5s var(--ease), transform .5s var(--ease); }
+[data-mode="otras"] .only-peakly { opacity: 0; transform: translateX(14px); }
+[data-mode="peakly"] .only-others { opacity: 0; }
+@media (max-width: 600px) { .diff-chart .diff-tag, .diff-chart .chart-label { font-size: 22px; } }
+
+/* ---------- Canales ---------- */
+.canales__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 36px; align-items: start; margin-bottom: 44px; }
+@media (max-width: 900px) { .canales__grid { grid-template-columns: 1fr; } }
+.canales__sub { margin-bottom: 16px; font-family: var(--font-display); font-size: 1.375rem; }
+.channel-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 600px) { .channel-list { grid-template-columns: 1fr; } }
+.channel { flex-direction: row; align-items: flex-start; gap: 14px; padding: 20px; }
+.channel .card__icon { flex: none; width: 46px; height: 46px; }
+.channel strong { display: block; margin-bottom: 4px; font-family: var(--font-display); font-size: 1.125rem; }
+.channel strong + span { display: block; font-size: .9375rem; color: var(--text-2); }
+
+/* Vista previa del post semanal */
+.post {
+  max-width: 340px; width: 100%; margin-inline: auto; padding: 20px; border-radius: 28px;
+  border: 1px solid var(--line); background: linear-gradient(160deg, #13244F, #0B1530 65%);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .45), 0 0 0 1px rgba(34, 217, 138, .08) inset;
+  transform: rotate(2deg); transition: transform .4s var(--ease), opacity .8s var(--ease);
+}
+.js .post.reveal.is-visible { transform: rotate(2deg); }
+.js .post.reveal.is-visible:hover { transform: rotate(0deg) translateY(-4px); }
+.post__head { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; font-size: .875rem; }
+.post__logo { flex: none; width: 36px; height: 36px; padding: 4px; border-radius: 10px; background: var(--navy); }
+.post__net { display: block; font-size: .75rem; color: var(--text-3); }
+.post__head .badge-sim { margin-left: auto; }
+.post__kicker { font-size: .8125rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--amber); }
+.post__title { margin: 4px 0 16px; font-family: var(--font-display); font-size: 2rem; font-weight: 700; line-height: 1.05; }
+.post__list { display: flex; flex-direction: column; gap: 10px; }
+.post__item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: rgba(20, 34, 74, .85); }
+.post__rank { width: 18px; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-3); }
+.post__item .ill { width: 38px; height: 38px; border-radius: 12px; }
+.post__item .ill svg { width: 24px; height: 24px; }
+.post__name { flex: 1; min-width: 0; font-size: .9375rem; font-weight: 600; line-height: 1.25; }
+.post__score { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; color: var(--green); }
+.post__foot { margin-top: 14px; text-align: center; font-size: .8125rem; color: var(--text-3); }
+
+/* Relación con el cliente */
+.rel-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 1080px) { .rel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .rel-grid { grid-template-columns: 1fr; } }
+.rel { padding: 22px; gap: 10px; }
+.rel h4 { font-family: var(--font-display); font-size: 1.125rem; }
+.rel p { font-size: .9375rem; }
+.rel .badge-sim { align-self: flex-start; }
+.rel__link {
+  align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px;
+  font-weight: 700; color: var(--green); text-decoration: underline; text-underline-offset: 4px;
+}
+.rel-grid .reveal:nth-child(2) { transition-delay: .06s; }
+.rel-grid .reveal:nth-child(3) { transition-delay: .12s; }
+.rel-grid .reveal:nth-child(4) { transition-delay: .18s; }
+
+/* Referidos */
+.referral {
+  margin-top: 28px; display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px 22px; align-items: center;
+  padding: 24px 28px; border-radius: var(--radius-lg); border-color: rgba(34, 217, 138, .35);
+}
+.referral__icon { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 16px; background: var(--green); color: var(--bg); }
+.referral__icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.referral__copy h3 { font-family: var(--font-display); font-size: 1.375rem; }
+.referral__copy p { color: var(--text-2); }
+.referral__box { display: flex; flex-wrap: wrap; gap: 10px; }
+.referral__box input {
+  flex: 1 1 220px; min-width: 0; min-height: 48px; padding: 0 14px; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--text-2); font-size: .875rem;
+}
+.referral__msg { grid-column: 1 / -1; min-height: 20px; margin-top: -6px; text-align: right; font-size: .875rem; font-weight: 600; color: var(--green); }
+@media (max-width: 900px) {
+  .referral { grid-template-columns: auto minmax(0, 1fr); }
+  .referral__box { grid-column: 1 / -1; }
+  .referral__msg { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post, .js .post.reveal.is-visible, .js .post.reveal.is-visible:hover { transform: none; }
+}
