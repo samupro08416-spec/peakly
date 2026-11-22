@@ -50,7 +50,42 @@
 
     "faq.a1": "La web usa cifras de mercado reales, siempre con su fuente, y una simulación para la demo. Vinted y Wallapop no tienen API pública, así que la versión funcional trabajará con fuentes autorizadas, como la API oficial de eBay, y con acuerdos con las plataformas.",
 
-    "pres.sMarket": "La oportunidad", "pres.sCase": "Caso real"
+    /* Propuesta de valor y diferencial */
+    "value.eyebrow": "Propuesta de valor", "value.title": "Todo para revender con ventaja.",
+    "value.v1t": "Detecta antes", "value.v1d": "Productos en alza antes de que se saturen.",
+    "value.v2t": "Peak Score", "value.v2d": "Predice cuándo llegará el pico de demanda.",
+    "value.v3t": "Precio ideal", "value.v3d": "Precio recomendado de compra y de venta.",
+    "value.v4t": "Alertas al momento", "value.v4d": "Un aviso en tu móvil en cuanto algo despega.",
+    "value.v5t": "Todo en un panel", "value.v5d": "Vinted, Wallapop y eBay juntos y en español.",
+    "value.diffEyebrow": "Nuestro diferencial",
+    "value.diffTitle": "Otras herramientas miran el pasado. <span class=\"accent\">Peakly mira hacia delante.</span>",
+    "value.diffAria": "Comparar Peakly con otras herramientas",
+    "value.optOthers": "Otras herramientas", "value.optPeakly": "Peakly",
+    "value.capOthers": "Analizan lo que ya se ha vendido. Cuando lo ves, la tendencia ya está saturada.",
+    "value.capPeakly": "Predice la demanda de las próximas semanas y te avisa antes del pico.",
+    "value.today": "Hoy", "value.past": "Ventas pasadas", "value.noForecast": "Sin predicción",
+    "value.buyNow": "Compra ahora", "value.peak": "Pico previsto",
+
+    /* Canales y relación con el cliente */
+    "ch.eyebrow": "Canales y comunidad", "ch.title": "Nos encontrarás donde ya estás.",
+    "ch.reachT": "Cómo llegamos a ti",
+    "ch.c1t": "Web y app móvil", "ch.c1d": "Tu panel siempre a mano.",
+    "ch.c2t": "TikTok e Instagram", "ch.c2d": "Cada semana, «lo que va a petar».",
+    "ch.c3t": "Creadores de reventa", "ch.c3d": "Colaboraciones con quien ya habla del tema.",
+    "ch.c4t": "Programa de referidos", "ch.c4d": "Trae a un amigo y llévate una ventaja.",
+    "ch.postKicker": "Esta semana", "ch.postTitle": "Lo que va a petar", "ch.postFoot": "Así serán nuestros posts semanales.",
+    "ch.relT": "Cómo te acompañamos",
+    "ch.r1t": "Autoservicio", "ch.r1d": "La app hace el trabajo; tú decides.",
+    "ch.r2t": "Comunidad", "ch.r2d": "Discord y Telegram para compartir hallazgos.", "ch.soon": "Próximamente",
+    "ch.r3t": "Newsletter semanal", "ch.r3d": "Las tendencias de la semana en tu email.", "ch.r3cta": "Apúntate",
+    "ch.r4t": "Soporte por chat", "ch.r4d": "Te respondemos cuando lo necesites.",
+    "ch.refT": "Invita a un amigo", "ch.refD": "Comparte tu enlace: cuando tu amigo se apunte, tú te llevas una ventaja.",
+    "ch.refLabel": "Tu enlace de invitación", "ch.refCopy": "Copiar", "ch.refShare": "Compartir",
+    "ch.refCopied": "¡Enlace copiado!", "ch.refCopyFail": "No se ha podido copiar: selecciona el enlace y cópialo a mano.",
+    "ch.refShareText": "Mira Peakly: te avisa de lo que va a petar en la reventa antes de que se sature.",
+
+    "pres.sMarket": "La oportunidad", "pres.sCase": "Caso real",
+    "pres.sValue": "Propuesta de valor", "pres.sChannels": "Canales y comunidad"
   });
 
   Object.assign(I.en, {
@@ -95,6 +130,41 @@
 
     "faq.a1": "The site uses real market figures, always with their source, and a simulation for the demo. Vinted and Wallapop have no public API, so the working version will use authorised sources, such as eBay's official API, and agreements with the platforms.",
 
-    "pres.sMarket": "The opportunity", "pres.sCase": "Real case"
+    /* Value proposition and differentiator */
+    "value.eyebrow": "Value proposition", "value.title": "Everything you need to resell ahead.",
+    "value.v1t": "Spot it early", "value.v1d": "Rising products before they get saturated.",
+    "value.v2t": "Peak Score", "value.v2d": "Predicts when demand will peak.",
+    "value.v3t": "Ideal price", "value.v3d": "Recommended buy and sell price.",
+    "value.v4t": "Instant alerts", "value.v4d": "A phone alert as soon as something takes off.",
+    "value.v5t": "One dashboard", "value.v5d": "Vinted, Wallapop and eBay together, in Spanish.",
+    "value.diffEyebrow": "Our differentiator",
+    "value.diffTitle": "Other tools look at the past. <span class=\"accent\">Peakly looks ahead.</span>",
+    "value.diffAria": "Compare Peakly with other tools",
+    "value.optOthers": "Other tools", "value.optPeakly": "Peakly",
+    "value.capOthers": "They analyse what has already sold. By the time you see it, the trend is saturated.",
+    "value.capPeakly": "It predicts demand for the coming weeks and alerts you before the peak.",
+    "value.today": "Today", "value.past": "Past sales", "value.noForecast": "No forecast",
+    "value.buyNow": "Buy now", "value.peak": "Predicted peak",
+
+    /* Channels and customer relationship */
+    "ch.eyebrow": "Channels and community", "ch.title": "You'll find us where you already are.",
+    "ch.reachT": "How we reach you",
+    "ch.c1t": "Web and mobile app", "ch.c1d": "Your dashboard always at hand.",
+    "ch.c2t": "TikTok and Instagram", "ch.c2d": "Every week, “what's about to blow up”.",
+    "ch.c3t": "Resale creators", "ch.c3d": "Collabs with people who already talk about it.",
+    "ch.c4t": "Referral programme", "ch.c4d": "Bring a friend and get a perk.",
+    "ch.postKicker": "This week", "ch.postTitle": "What's about to blow up", "ch.postFoot": "This is what our weekly posts will look like.",
+    "ch.relT": "How we support you",
+    "ch.r1t": "Self-service", "ch.r1d": "The app does the work; you decide.",
+    "ch.r2t": "Community", "ch.r2d": "Discord and Telegram to share finds.", "ch.soon": "Coming soon",
+    "ch.r3t": "Weekly newsletter", "ch.r3d": "The week's trends in your inbox.", "ch.r3cta": "Sign up",
+    "ch.r4t": "Chat support", "ch.r4d": "We answer whenever you need us.",
+    "ch.refT": "Invite a friend", "ch.refD": "Share your link: when your friend joins, you get a perk.",
+    "ch.refLabel": "Your invite link", "ch.refCopy": "Copy", "ch.refShare": "Share",
+    "ch.refCopied": "Link copied!", "ch.refCopyFail": "Couldn't copy: select the link and copy it by hand.",
+    "ch.refShareText": "Check out Peakly: it tells you what's about to blow up in resale before it gets saturated.",
+
+    "pres.sMarket": "The opportunity", "pres.sCase": "Real case",
+    "pres.sValue": "Value proposition", "pres.sChannels": "Channels and community"
   });
 })();
