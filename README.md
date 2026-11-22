@@ -18,7 +18,8 @@ peakly/
 │  ├─ secciones.css      Hero, problema, cómo funciona, precios, FAQ, CTA, footer
 │  ├─ demo.css           La demo interactiva
 │  ├─ presentacion.css   El modo presentación
-│  └─ visual.css         Capa visual v2: fondo animado, cinta, cifras, caso real
+│  ├─ visual.css         Capa visual v2: fondo animado, cinta, cifras, caso real
+│  └─ propuesta-canales.css  Propuesta de valor, diferencial y canales
 ├─ js/
 │  ├─ data.js            ✏️ DATOS: cifras reales (con fuente) y productos de la demo
 │  ├─ i18n.js            ✏️ TEXTOS en español e inglés
@@ -30,6 +31,7 @@ peakly/
 │  ├─ medicion.js        Canal de origen (UTM), analítica y eventos
 │  ├─ lista-espera.js    Formulario: validación, consentimiento y envío
 │  ├─ demo.js            Demo: filtros, ficha, simulador, alerta, calculadora y tour
+│  ├─ propuesta-canales.js  Comparador «Otras vs Peakly», post semanal y enlace de referidos
 │  └─ presentacion.js    Modo presentación (tecla P)
 ├─ integraciones/
 │  └─ google-apps-script.gs   Código para guardar los registros en Google Sheets
@@ -84,7 +86,7 @@ Funciona sin internet. Lo único que necesita conexión son las fuentes (Space G
 
 Consejos para el día de la presentación:
 - Pon el navegador a pantalla completa con **F11** antes de pulsar **P**.
-- Abajo verás la barra de progreso (por ejemplo **5/10 · Demo interactiva**). Hay 10 paradas: Hero → El problema → La oportunidad → Cómo funciona → Demo → Caso real → Para quién → Precios → FAQ → Lista de espera.
+- Abajo verás la barra de progreso (por ejemplo **6/12 · Demo interactiva**). Hay 12 paradas: Hero → El problema → La oportunidad → Cómo funciona → Propuesta de valor → Demo → Caso real → Para quién → Canales y comunidad → Precios → FAQ → Lista de espera.
 - La demo guiada dura unos 15 segundos y sola: elige el producto, avanza el tiempo, enseña qué pasa si llegas tarde y activa la alerta en el móvil. Si tocas la demo mientras se reproduce, se para.
 - El idioma se cambia con **ES / EN** en la barra de arriba y se recuerda para la próxima vez.
 
